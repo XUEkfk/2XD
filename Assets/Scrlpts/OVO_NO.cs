@@ -5,16 +5,16 @@ using UnityEngine;
 
 public class OVO_NO : MonoBehaviour
 {
-    public Time time;
+    public float time;
     // Start is called before the first frame update
     void Start()
     {
-        time = 0;
+        time = 0f;
     }
 
     // Update is called once per frame
     void Update()
     {
-        time ++;
+        time += Time.deltaTime;
     }
 }
