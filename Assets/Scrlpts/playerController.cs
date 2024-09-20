@@ -28,7 +28,7 @@ public class playerController : MonoBehaviour
 
         viewPoint.rotation = Quaternion.Euler(-verticalRotStore, viewPoint.rotation.eulerAngles.y,
             viewPoint.rotation.eulerAngles.z);
-        /1111111111111
+        //1111111111111
 
     }
     
