@@ -57,6 +57,11 @@ public class playerController : MonoBehaviour
         //腳色移動
         movement = ((transform.forward * moveDir.z) + (transform.right * moveDir.x)).normalized*Run;
         movement.y = yVie;
+
+        if (Input.GetButtonDown("Jump"))
+        {
+            
+        }
         
         //若碰到地板則停止運算
         if (Char.isGrounded)
