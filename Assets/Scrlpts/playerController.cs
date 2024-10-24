@@ -1,4 +1,5 @@
 using System.Collections;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class playerController : MonoBehaviour
@@ -14,6 +15,8 @@ public class playerController : MonoBehaviour
     public LayerMask groundLayer;         // 地面圖層
     public GameObject bulletImpact;       // 子彈擊中效果
     public float bulletFireRate = 0.1f;   // 子彈射擊頻率
+    public CreateGun[] AllGuns;
+    private int seleetedGun;
 
     [Header("過熱設定")]
     public float maxHeat = 10f;           // 最大過熱值
@@ -32,6 +35,7 @@ public class playerController : MonoBehaviour
     // 移動相關
     private Vector3 moveDirection, movement;
 
+    [Header("組件引用")]
     // 組件引用
     public CharacterController charController;  // 角色控制器
     private Camera cam;                         // 攝影機
@@ -44,7 +48,19 @@ public class playerController : MonoBehaviour
         Cursor.lockState = CursorLockMode.Locked;
 
         // 獲取攝影機
+        UIController.intnce.weaponTempSlider.maxValue = maxHeat;
         cam = Camera.main;
+        switchGun();
+    }
+
+    private void switchGun()
+    {
+        foreach (CreateGun gun in AllGuns)
+        {
+            gun.gameObject.SetActive(false);
+            
+        }
+        AllGuns[seleetedGun].gameObject.SetActive(true);
     }
 
     // Update is called once per frame
@@ -129,6 +145,7 @@ public class playerController : MonoBehaviour
             if (currentHeat <= 0)
             {
                 isOverheated = false;
+                UIController.intnce.OverHrMess.gameObject.SetActive(false);
             }
         }
         else
@@ -156,6 +173,27 @@ public class playerController : MonoBehaviour
         {
             currentHeat = 0f;
         }
+        UIController.intnce.weaponTempSlider.value = currentHeat;
+
+        if (Input.GetAxisRaw("Mouse ScrollWheel")>0f)
+        {
+            seleetedGun++;
+            if (seleetedGun>=AllGuns.Length)
+            {
+                seleetedGun = 0;
+            }
+            switchGun();
+        }
+        else if (Input.GetAxisRaw("Mouse ScrollWheel")<0f)
+        {
+            seleetedGun--;
+            if (seleetedGun<0)
+            {
+                seleetedGun = AllGuns.Length - 1;
+            }
+            switchGun();
+        }
+        
     }
 
     private void LateUpdate()
@@ -188,6 +226,10 @@ public class playerController : MonoBehaviour
         {
             currentHeat = maxHeat;
             isOverheated = true;
+            
+            UIController.intnce.OverHrMess.gameObject.SetActive(true);
+            
         }
     }
 }
+
