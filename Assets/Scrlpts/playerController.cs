@@ -103,30 +103,29 @@ public class playerController : MonoBehaviour
 
         // 記錄Y軸速度
         float yVelocity = movement.y;
-
         // 根據角色朝向移動
         movement = (transform.forward * moveDirection.z + transform.right * moveDirection.x).normalized * runMultiplier;
         movement.y = yVelocity;
-
+     
+        // 如果角色在地面，將Y軸速度設為0
+        if (charController.isGrounded)
+        {
+            movement.y = 0f;
+        }
+        
         // 檢測跳躍
         if (Input.GetButtonDown("Jump") && isGrounded)
         {
             Debug.Log("JUMP");
             movement.y = jumpForce;
         }
-
+        // 應用重力
+        movement.y += Physics.gravity.y * Time.deltaTime * gravityMultiplier;
         // 檢測是否接觸地面
         isGrounded = Physics.Raycast(groundPoint.position, Vector3.down, 1f, groundLayer);
 
-        // 如果角色在地面，將Y軸速度設為0
-        if (charController.isGrounded)
-        {
-            movement.y = 0f;
-        }
 
-        // 應用重力
-        movement.y += Physics.gravity.y * Time.deltaTime * gravityMultiplier;
-
+        
         // 移動角色
         charController.Move(movement * moveSpeed * Time.deltaTime);
 
