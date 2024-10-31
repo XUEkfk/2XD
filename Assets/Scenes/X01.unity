@@ -1212,7 +1212,7 @@ MonoBehaviour:
   mousSensitivity: 1
   moveSpeed: 3
   runSpeed: 10
-  jumpForce: 20
+  jumpForce: 500
   gravityMultiplier: 2.5
   groundPoint: {fileID: 1098885332}
   groundLayer:
