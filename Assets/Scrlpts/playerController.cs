@@ -32,6 +32,9 @@ public class playerController : MonoBehaviour
     private float currentHeat;            // 當前過熱值
     private bool isOverheated;            // 是否過熱
 
+    public float MuzzleDisTime;
+    private float muzzleCounter;
+
     // 移動相關
     private Vector3 moveDirection, movement;
 
@@ -61,6 +64,7 @@ public class playerController : MonoBehaviour
             
         }
         AllGuns[seleetedGun].gameObject.SetActive(true);
+        AllGuns[seleetedGun].muzzleFlash.SetActive(false);
     }
 
     // Update is called once per frame
@@ -134,6 +138,15 @@ public class playerController : MonoBehaviour
         else if (Cursor.lockState == CursorLockMode.None && Input.GetMouseButtonDown(0))
         {
             Cursor.lockState = CursorLockMode.Locked;
+        }
+        if (AllGuns[seleetedGun].muzzleFlash.activeInHierarchy)
+        {
+            muzzleCounter -= Time.deltaTime;
+            if (muzzleCounter<=0)
+            {
+                AllGuns[seleetedGun].muzzleFlash.SetActive(false);
+            }
+
         }
     }
 
@@ -218,10 +231,10 @@ public class playerController : MonoBehaviour
             Destroy(impact, 3f);
         }
 
-        shootCooldown = bulletFireRate; // 重置射擊冷卻時間
+        shootCooldown = AllGuns[seleetedGun].timeBrtweenShots; // 重置射擊冷卻時間
 
         // 增加過熱值
-        currentHeat += heatPerShot;
+        currentHeat += AllGuns[seleetedGun].heatPerShot;
         if (currentHeat >= maxHeat) // 如果達到過熱狀態
         {
             currentHeat = maxHeat;
@@ -230,6 +243,9 @@ public class playerController : MonoBehaviour
             UIController.intnce.OverHrMess.gameObject.SetActive(true);
             
         }
+
+        AllGuns[seleetedGun].muzzleFlash.SetActive(true);
+        muzzleCounter = MuzzleDisTime;
     }
 }
 

@@ -5,8 +5,9 @@ using UnityEngine;
 public class CreateGun : MonoBehaviour
 {
     public bool isAutomatic;
-
     public float timeBrtweenShots = 1f, heatPerShot = 1f;
+    public GameObject muzzleFlash;
+    
     // Start is called before the first frame update
     void Start()
     {
