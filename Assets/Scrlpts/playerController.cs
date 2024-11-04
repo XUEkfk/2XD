@@ -112,7 +112,7 @@ public class playerController : MonoBehaviour
         {
             movement.y = 0f;
         }
-        
+       
         // 檢測跳躍
         if (Input.GetButtonDown("Jump") && isGrounded)
         {
@@ -121,8 +121,9 @@ public class playerController : MonoBehaviour
         }
         // 應用重力
         movement.y += Physics.gravity.y * Time.deltaTime * gravityMultiplier;
+    
         // 檢測是否接觸地面
-        isGrounded = Physics.Raycast(groundPoint.position, Vector3.down, 1f, groundLayer);
+            isGrounded = Physics.Raycast(groundPoint.position, Vector3.down, 1f, groundLayer);    
 
 
         
