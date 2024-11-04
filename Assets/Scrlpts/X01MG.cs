@@ -12,6 +12,7 @@ public class X01MG : MonoBehaviour
     void Start()
     {
         UIesc.SetActive(UiescisF);
+        Time.timeScale = 1;
     }
 
     // Update is called once per frame
@@ -20,6 +21,10 @@ public class X01MG : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Escape))
         {
             ToggleUi();
+        }
+        if ((Input.GetKeyDown(KeyCode.Return)||Input.GetKeyDown(KeyCode.KeypadEnter))&& UiescisF)
+        {
+            OutTheGame();
         }
         
     }
@@ -37,5 +42,9 @@ public class X01MG : MonoBehaviour
         {
             Time.timeScale = 1;     //start the game
         }
+    }
+    void OutTheGame()
+    {
+        Application.Quit();
     }
 }
